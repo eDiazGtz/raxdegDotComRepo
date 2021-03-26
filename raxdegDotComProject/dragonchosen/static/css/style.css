@@ -1,0 +1,9 @@
+#wrapper {
+    background: #fff url("/static/img/parchmentBackground.jpg") 50% 0 no-repeat;
+    }
+#nav {
+    background-image: radial-gradient(rgb(162, 0, 255), rgb(55, 8, 59));
+    }
+#nav img {
+    height: 40px;
+}
