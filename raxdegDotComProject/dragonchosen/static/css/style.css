@@ -1,25 +1,42 @@
 body {
-    background: #000 url("/static/img/spaceWallpaper.jpg") 50% 0 no-repeat;
+    background: #000 url("/static/img/spaceWallpaper.jpg") 100% 0;
     }
 #wrapper {
-    background: #000 url("/static/img/parchmentBackground.jpg") 50% 0 no-repeat;
-    }
-#nav {
-    background-image: linear-gradient(rgb(65, 0, 71), rgb(152, 6, 236), rgb(65, 0, 71));
-    }
-#nav img {
+    background: #000 url("/static/img/parchmentBackground2.jpg") 50% 0;
+}
+#logo {
     height: 100px;
     position: absolute;
 }
 #home {
     margin-left: 105px;
 }
+/* COLORS  */
 .btn-purple {
     border: 1px solid rgb(144, 92, 192);
     color: rgb(219, 202, 236);
 }
-.purple {
+.text-purple {
     color: #8a2be2;
+}
+.bg-purple {
+    background-image: linear-gradient(rgb(65, 0, 71), rgb(152, 6, 236), rgb(65, 0, 71));
+    }
+.shadow-purple {
+    text-shadow: 1px 1px 2px #8a2be2;
+}
+.shadow-green {
+    text-shadow: 1px 1px 2px #23ad2a;
+}
+.shadow-red {
+    text-shadow: 1px 1px 2px #b12626;
+}
+.shadow-blue {
+    text-shadow: 1px 1px 2px #0d6efd;
+}
+
+.no-decor {
+    list-style: none;
 }
 h3 {
     text-shadow: 2px 2px 5px rgb(0, 0, 0);
@@ -27,7 +44,7 @@ h3 {
 h5 {
     margin: 30px 0 15px 0;
 }
-#tiamat {
+.fit-img {
     width: 100%;
 }
 

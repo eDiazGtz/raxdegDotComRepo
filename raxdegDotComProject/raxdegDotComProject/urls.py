@@ -19,6 +19,6 @@ from dragonchosen import views
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('', views.home), #later to be main page
+    path('', views.landing), #Path later to be main page
     path('dragonchosen/', include('dragonchosen.urls')),
 ]
