@@ -1,9 +1,46 @@
+body {
+    background: #000 url("/static/img/spaceWallpaper.jpg") 50% 0 no-repeat;
+    }
 #wrapper {
-    background: #fff url("/static/img/parchmentBackground.jpg") 50% 0 no-repeat;
+    background: #000 url("/static/img/parchmentBackground.jpg") 50% 0 no-repeat;
     }
 #nav {
-    background-image: radial-gradient(rgb(162, 0, 255), rgb(55, 8, 59));
+    background-image: linear-gradient(rgb(65, 0, 71), rgb(152, 6, 236), rgb(65, 0, 71));
     }
 #nav img {
-    height: 40px;
+    height: 100px;
+    position: absolute;
 }
+#home {
+    margin-left: 105px;
+}
+.btn-purple {
+    border: 1px solid rgb(144, 92, 192);
+    color: rgb(219, 202, 236);
+}
+.purple {
+    color: #8a2be2;
+}
+h3 {
+    text-shadow: 2px 2px 5px rgb(0, 0, 0);
+}
+h5 {
+    margin: 30px 0 15px 0;
+}
+#tiamat {
+    width: 100%;
+}
+
+@media (max-width: 991px) {
+    h3{font-size: 16px;}
+    .btn{font-size: 12px;}
+}
+@media (max-width: 767px) {
+    h3{font-size: 11px;}
+    .btn{font-size: 8px;}
+}
+@media (max-width: 480px) {
+    h3{font-size: 8.5px;}
+    .btn{font-size: 7.5px;}
+}
+
