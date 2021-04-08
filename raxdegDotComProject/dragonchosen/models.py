@@ -77,7 +77,7 @@ class UserManager(models.Manager):
         return False
 
 
-class CharacterManager(models.Manager):
+class HeroManager(models.Manager):
     def registrationValidator(self, postData):
         errors = {}
         if len(postData['name']) < 1:
@@ -117,32 +117,108 @@ class User(models.Model):
     objects = UserManager()
     # RELATIONSHIPS
 
-class Character(models.Model):
+class Hero(models.Model):
     # REQUIRED FIELDS
     name = models.CharField(max_length=17)
-    charClass = models.CharField(max_length=17)
-    level = models.IntegerField()
-    background = models.CharField(max_length=17)
-    race = models.CharField(max_length=17)
     ac = models.IntegerField()
-    # OPTIONAL/EDITABLE FIELDS
-        # Character Stats
-    strength = models.IntegerField()
-    dexterity = models.IntegerField()
-    constitution = models.IntegerField()
-    intelligence = models.IntegerField()
-    wisdom = models.IntegerField()
-    charisma = models.IntegerField()
-        # Saving Throw Proficiency
-    strSave = models.BooleanField()
-    dexSave = models.BooleanField()
-    conSave = models.BooleanField()
-    intSave = models.BooleanField()
-    wisSave = models.BooleanField()
-    chaSave = models.BooleanField()
+    hp = models.IntegerField()
+    race = models.CharField(max_length=17)
+    level = models.CharField(max_length=8)
+    charClass = models.CharField(max_length=17)
+    passivePerception = models.IntegerField()
+    speed = models.IntegerField()
+    alignment = models.CharField(max_length=17)
+    nagaId = models.IntegerField()
+        # # OPTIONAL/EDITABLE FIELDS
+        # background = models.CharField(max_length=17)
+        #     # Character Stats
+        # strength = models.IntegerField()
+        # dexterity = models.IntegerField()
+        # constitution = models.IntegerField()
+        # intelligence = models.IntegerField()
+        # wisdom = models.IntegerField()
+        # charisma = models.IntegerField()
+        #     # Saving Throw Proficiency
+        # strSave = models.BooleanField()
+        # dexSave = models.BooleanField()
+        # conSave = models.BooleanField()
+        # intSave = models.BooleanField()
+        # wisSave = models.BooleanField()
+        # chaSave = models.BooleanField()
     # META DATA
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    objects = CharacterManager()
+    objects = HeroManager()
     # RELATIONSHIPS
-    owner = models.ForeignKey(User, related_name="characters", on_delete = models.CASCADE)
+    owner = models.ForeignKey(User, related_name="heroes", on_delete = models.CASCADE)
+
+class Speeds(models.Model):
+    content = models.TextField(blank=False)
+    #RELATIONSHIPS
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Saves(models.Model):
+    content = models.TextField(blank=False)
+    #RELATIONSHIPS
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class DamageResistances(models.Model):
+    content = models.TextField(blank=False)
+    #RELATIONSHIPS
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Senses(models.Model):
+    content = models.TextField(blank=False)
+    #RELATIONSHIPS
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Traits(models.Model):
+    name = models.TextField(blank=False)
+    content = models.TextField(blank=False)
+    #RELATIONSHIPS
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Actions(models.Model):
+    parenthetical = models.TextField(blank=True)
+    name = models.TextField(blank=False)
+    content = models.TextField(blank=False)
+    #RELATIONSHIPS
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Monster(models.Model):
+    name = models.CharField(max_length=25)
+    ac = models.IntegerField()
+    hp = models.CharField(max_length=10)
+    hpAvg = models.IntegerField()
+    source = models.CharField(max_length=6)
+    pageNumber = models.CharField(max_length=6)
+    creatureType = models.CharField(max_length=12)
+    intBonus = models.IntegerField()
+    conBonus = models.IntegerField()
+    strBonus = models.IntegerField()
+    wisBonus = models.IntegerField()
+    chaBonus = models.IntegerField()
+    dexBonus = models.IntegerField()
+    intValue = models.IntegerField()
+    wisValue = models.IntegerField()
+    chaValue = models.IntegerField()
+    dexValue = models.IntegerField()
+    strValue = models.IntegerField()
+    conValue = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    # objects = MonsterManager()
+    # RELATIONSHIPS
+    #UPDATE TO MANYTOMANY
+    monSaves = models.ManyToManyField(Saves, related_name="monOwners")
+    monSenses = models.ManyToManyField(Senses, related_name="monOwners")
+    monSpeeds = models.ManyToManyField(Speeds, related_name="monOwners")
+    monTraits = models.ManyToManyField(Traits, related_name="monOwners")
+    monActions = models.ManyToManyField(Actions, related_name="monOwners")
+    monDamageResistances = models.ManyToManyField(DamageResistances, related_name="monOwners")

@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragonchosen Campaign</title>
+    <!-- BOOTSTRAP  -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- FAVICON for dragon icon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img\dragonchosenLogo.png' %}">
+    <!-- STYLE CSS  -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container bg-light p-5" id="wrapper">
+
+    <!-- NAVBAR -->
+    <div class="p-2 mb-3 bg-purple d-flex  align-items-center border border-left-0 border-top-0 border-right-0 border-primary rounded shadow">
+            
+        <!-- LOGO AND HOME  -->
+        <img src="{% static 'img\dragonchosenLogo2.png' %}" alt="Cult of the Dragon Logo" class="rounded-circle mr-1" id="logo">
+        <a href="{% url 'home' %}" class="btn btn-outline-primary btn-purple mr-1" id="home">Home</a>
+        
+        <!-- CAMPAIGN GROUP -->
+        <div class="btn-group">
+            <a href="{% url 'campaign' %}" class="btn btn-primary pl-1 pr-1 ml-0">Campaign</a>
+            <button type="button" class="btn btn-outline-primary btn-purple mr-1 dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu bg-purple">
+            <a class="dropdown-item text-light" href="#">Adventures</a>
+            <a class="dropdown-item text-light" href="#">Locations</a>
+            <a class="dropdown-item text-light" href="#">Factions</a>
+            <a class="dropdown-item text-light" href="#">Encounters</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-light" href="#">People of Starfall</a>
+            </div>
+        </div>
+
+        <!-- LOGIN MENU  -->
+        {% if 'userId' not in request.session %}
+        <div class="dropdown">
+            <button type="button" class="btn btn-outline-primary btn-purple dropdown-toggle pl-1 pr-1 ml-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</button>
+            <div class="dropdown-menu bg-purple pl-2 pr-2">
+                <form method="POST" action="{% url 'loginUser' %}" px-4 py-3">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username" class="text-light">Username: </label>
+                    <input type="email" class="form-control" name="username" placeholder="Dragonchosen Name">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="text-light">Password: </label>
+                    <input type="password" class="form-control mb-2" name="password" placeholder="Password">
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary pl-3 pr-3">Log In</button>
+                </div>
+                </form>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-light" href="{% url 'login' %}">Want to be Dragonchosen? Sign up</a>
+            </div>
+        </div>
+            <h3 class="text-primary ml-auto pr-0">Welcome! Login to be Chosen.</h3>
+
+        {% else %}
+        <div class="dropdown">
+            <button type="button" class="btn btn-outline-primary btn-purple dropdown-toggle pl-1 pr-1 ml-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</button>
+                <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu bg-purple">
+                    <a class="dropdown-item text-light" href="{% url 'heroes' %}">Heroes</a>
+                    <a class="dropdown-item text-light" href="{% url 'editUser' %}">My Info</a>
+                    <div class="dropdown-divider">
+                    </div>
+                    <a class="dropdown-item text-light" href="{% url 'logout' %}">Logout</a>
+                </div>
+            </div>
+            <h3 class="text-primary ml-auto pr-0">Welcome Dragonchosen {{user.firstName}}!</h3>
+        {% endif %}
+    </div>
+<!-- END NAVBAR -->
+
+
+        <!-- --------  MAIN CONTENT  -------- -->
+        <p class="font-weight-bold">Five brave heroes have banded together to stop the Cult of the Dragon and their nefarious deeds.</p>
+        <div class="d-flex justify-content-center thumbnail">
+            <img src="{% static 'img\lockeSquare.jpg' %}" alt="Dragonchosen Locke">
+            <img src="{% static 'img\dymond2Square.jpg' %}" alt="Dragonchosen Dymond">
+            <img src="{% static 'img\sarenSquare.jpg' %}" alt="Dragonchosen Saren">
+            <img src="{% static 'img\kalistaSquare.png' %}" alt="Dragonchosen Kalista">
+            <img src="{% static 'img\keiSquare.jpg' %}" alt="Dragonchosen Kei">
+        </div>
+
+        <div class="row mt-4">
+        <div class="col-1"></div>
+        <div class="col-4">
+            <div class="d-flex justify-content-center flex-wrap">
+                <a href="#"><img src="{% static 'img\MinesofPhandelver.jpg' %}" alt="An image of the Mines of Phandelver, a link to Adventures" class="img-thumbnail"></a>
+                <p class="h5 bg-purple p-2 text-stretch text-center"><a href="#">Adventures</a></p>
+            </div>
+            <div class="d-flex justify-content-center flex-wrap">
+                <a href="#"><img src="{% static 'img\cultOfTheDragonLogo.jpg' %}" alt="An image of the Cult of the Dragon Logo, a link to Factions" class="img-thumbnail"></a>
+                <p class="h5 bg-purple  p-2 text-stretch text-center"><a href="#">Factions</a></p>
+            </div>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-1"></div>
+        <div class="col-4">
+            <div class="d-flex justify-content-center flex-wrap">
+                <a href="#"><img src="{% static 'img\apexia.jpg' %}" alt="An image to the Desert City of Apexia, a link to Locations" class="img-thumbnail"></a>
+                <p class="h5 bg-purple p-2 text-stretch text-center"><a href="#">Locations</a></p>
+            </div>
+            <div class="d-flex justify-content-center flex-wrap"></div>
+                <a href="#"><img src="{% static 'img\tiamatIcon.png' %}" alt="An image of Hig Brick Ward in Starfall, a link to the People of Starfall" class="img-thumbnail"></a>
+                <p class="h5 bg-purple p-2 text-stretch text-center"><a href="#">Encounters</a></p>
+            </div>
+        </div>
+        <div class="col-1"></div>
+
+        </div>
+
+
+    </div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

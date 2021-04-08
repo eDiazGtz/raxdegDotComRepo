@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Dragonchosen</title>
+    <!-- BOOTSTRAP  -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- FAVICON for dragon icon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img\dragonchosenLogo.png' %}">
+    <!-- STYLE CSS  -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container bg-light p-5" id="wrapper">
+
+    <!-- NAVBAR -->
+    <div class="p-2 mb-3 bg-purple d-flex  align-items-center border border-left-0 border-top-0 border-right-0 border-primary rounded shadow">
+            
+        <!-- LOGO AND HOME  -->
+        <img src="{% static 'img\dragonchosenLogo2.png' %}" alt="Cult of the Dragon Logo" class="rounded-circle mr-1" id="logo">
+        <a href="{% url 'home' %}" class="btn btn-outline-primary btn-purple mr-1" id="home">Home</a>
+        
+        <!-- CAMPAIGN GROUP -->
+        <div class="btn-group">
+            <a href="{% url 'campaign' %}" class="btn btn-outline-primary btn-purple pl-1 pr-1 ml-0">Campaign</a>
+            <button type="button" class="btn btn-outline-primary btn-purple mr-1 dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu bg-purple">
+            <a class="dropdown-item text-light" href="#">Adventures</a>
+            <a class="dropdown-item text-light" href="#">Locations</a>
+            <a class="dropdown-item text-light" href="#">Factions</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-light" href="#">People of Starfall</a>
+            </div>
+        </div>
+
+        <!-- LOGIN MENU  -->
+        {% if 'userId' not in request.session %}
+        <div class="dropdown">
+            <button type="button" class="btn btn-outline-primary btn-purple dropdown-toggle pl-1 pr-1 ml-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</button>
+            <div class="dropdown-menu bg-purple pl-2 pr-2">
+                <form method="POST" action="{% url 'loginUser' %}" px-4 py-3">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username" class="text-light">Username: </label>
+                    <input type="email" class="form-control" name="username" placeholder="Dragonchosen Name">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="text-light">Password: </label>
+                    <input type="password" class="form-control mb-2" name="password" placeholder="Password">
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary pl-3 pr-3">Log In</button>
+                </div>
+                </form>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-light" href="{% url 'login' %}">Want to be Dragonchosen? Sign up</a>
+            </div>
+        </div>
+            <h3 class="text-primary ml-auto pr-0">Welcome! Login to be Chosen.</h3>
+
+        {% else %}
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle pl-1 pr-1 ml-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</button>
+                <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu bg-purple">
+                    <a class="dropdown-item text-light" href="{% url 'heroes' %}">Heroes</a>
+                    <a class="dropdown-item text-light" href="{% url 'editUser' %}">My Info</a>
+                    <div class="dropdown-divider">
+                    </div>
+                    <a class="dropdown-item text-light" href="{% url 'logout' %}">Logout</a>
+                </div>
+            </div>
+            <h3 class="text-primary ml-auto pr-0">Welcome Dragonchosen {{user.firstName}}!</h3>
+        {% endif %}
+    </div>
+<!-- END NAVBAR -->
+
+        {% if messages %}
+            <ul class="messages mt-5">    
+                {% for message in messages %}    
+                    <li class="font-weight-bold text-primary">{{ message }}</li>    
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        <!-- MY HEROES  -->
+        <div class="d-flex justify-content-between">
+            <h5 class="text-secondary">My Heroes!</h5>
+            <h5 class="text-secondary">Heroes Powered By: <a href="https://larvalnemesis.com/naga">Naga</a></h6>
+        </div>
+        <table class="table table-primary table-striped table-hover table-responsive">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>AC</th>
+                    <th>HP</th>
+                    <th>Race</th>
+                    <th>Level</th>
+                    <th>Class</th>
+                    <th>Passive Perception</th>
+                    <th>Speed</th>
+                    <th>Alignment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hero in heroes %}
+                    {% if user.id == hero.owner.id %}
+                    <tr>
+                        <td>{{hero.name}}</td>
+                        <td>{{hero.ac}}</td>
+                        <td>{{hero.hp}}</td>
+                        <td>{{hero.race}}</td>
+                        <td>{{hero.level}}</td>
+                        <td>{{hero.charClass}}</td>
+                        <td>{{hero.passivePerception}}</td>
+                        <td>{{hero.speed}}</td>
+                        <td>{{hero.alignment}}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- ALL OTHER HEROES  -->
+        <div class="d-flex justify-content-between">
+            <h5 class="text-secondary">Other Heroes!</h5>
+            <h5 class="text-secondary">Heroes Powered By: <a href="https://larvalnemesis.com/naga">Naga</a></h6>
+        </div>
+        <table class="table table-success table-striped table-hover table-responsive">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>AC</th>
+                    <th>HP</th>
+                    <th>Race</th>
+                    <th>Level</th>
+                    <th>Class</th>
+                    <th>Passive Perception</th>
+                    <th>Speed</th>
+                    <th>Alignment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hero in heroes %}
+                    {% if user.id != hero.owner.id %}
+                    <tr>
+                        <td>{{hero.name}}</td>
+                        <td>{{hero.ac}}</td>
+                        <td>{{hero.hp}}</td>
+                        <td>{{hero.race}}</td>
+                        <td>{{hero.level}}</td>
+                        <td>{{hero.charClass}}</td>
+                        <td>{{hero.passivePerception}}</td>
+                        <td>{{hero.speed}}</td>
+                        <td>{{hero.alignment}}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

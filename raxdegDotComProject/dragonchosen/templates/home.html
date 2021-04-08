@@ -16,22 +16,73 @@
 <body>
     <div class="container bg-light p-5" id="wrapper">
 
-        <div class="p-2 mb-3 bg-purple d-flex justify-content-between align-items-center border border-left-0 border-top-0 border-right-0 border-primary rounded shadow">
+    <!-- NAVBAR -->
+        <div class="p-2 mb-3 bg-purple d-flex  align-items-center border border-left-0 border-top-0 border-right-0 border-primary rounded shadow">
+            
+            <!-- LOGO AND HOME  -->
             <img src="{% static 'img\dragonchosenLogo2.png' %}" alt="Cult of the Dragon Logo" class="rounded-circle mr-1" id="logo">
             <a href="{% url 'home' %}" class="btn btn-primary mr-1" id="home">Home</a>
-            <a href="#" class="btn btn-outline-primary btn-purple mr-1">Campaign</a>
-            <!-- LOGIN BUTTON  -->
+            
+            <!-- CAMPAIGN GROUP -->
+            <div class="btn-group">
+                <a href="{% url 'campaign' %}" class="btn btn-outline-primary btn-purple pl-1 pr-1 ml-0">Campaign</a>
+                <button type="button" class="btn btn-outline-primary btn-purple mr-1 dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu bg-purple">
+                <a class="dropdown-item text-light" href="#">Adventures</a>
+                <a class="dropdown-item text-light" href="#">Locations</a>
+                <a class="dropdown-item text-light" href="#">Factions</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-light" href="#">People of Starfall</a>
+                </div>
+            </div>
+
+            <!-- LOGIN MENU  -->
             {% if 'userId' not in request.session %}
-            <a href="{% url 'login' %}" class="btn btn-outline-primary btn-purple mr-auto shadow">Login</a>
-            <h3 class="text-primary pr-2">Welcome to the Dragonchosen Campaign!</h3>
+            <div class="dropdown">
+                <button type="button" class="btn btn-outline-primary btn-purple dropdown-toggle pl-1 pr-1 ml-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</button>
+                <div class="dropdown-menu bg-purple pl-2 pr-2">
+                    <form method="POST" action="{% url 'loginUser' %}" px-4 py-3">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username" class="text-light">Username: </label>
+                        <input type="email" class="form-control" name="username" placeholder="Dragonchosen Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="text-light">Password: </label>
+                        <input type="password" class="form-control mb-2" name="password" placeholder="Password">
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary pl-3 pr-3">Log In</button>
+                    </div>
+                    </form>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-light" href="{% url 'login' %}">Want to be Dragonchosen? Sign up</a>
+                </div>
+            </div>
+                <h3 class="text-primary ml-auto pr-0">Welcome! Login to be Chosen.</h3>
+
             {% else %}
-            <a href="#" class="btn btn-outline-primary btn-purple mr-1 shadow">Heroes</a>
-            <a href="{% url 'editUser' %}" class="btn btn-outline-primary btn-purple mr-1 shadow">My Info</a>
-            <a href="{% url 'logout' %}" class="btn btn-outline-primary btn-purple mr-auto shadow">Logout</a>
-            <h3 class="text-primary pr-2">Welcome Dragonchosen {{user.firstName}}!</h3>
+            <div class="dropdown">
+                <button type="button" class="btn btn-outline-primary btn-purple dropdown-toggle pl-1 pr-1 ml-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</button>
+                    <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu bg-purple">
+                        <a class="dropdown-item text-light" href="{% url 'heroes' %}">Heroes</a>
+                        <a class="dropdown-item text-light" href="{% url 'editUser' %}">My Info</a>
+                        <div class="dropdown-divider">
+                        </div>
+                        <a class="dropdown-item text-light" href="{% url 'logout' %}">Logout</a>
+                    </div>
+                </div>
+                <h3 class="text-primary ml-auto pr-0">Welcome Dragonchosen {{user.firstName}}!</h3>
             {% endif %}
         </div>
+    <!-- END NAVBAR -->
 
+
+        <!-- --------  MAIN CONTENT  -------- -->
         {% if messages %}
             <ul class="messages mt-5">    
                 {% for message in messages %}    
@@ -39,17 +90,20 @@
                 {% endfor %}
             </ul>
         {% endif %}
-
         <h5 class="font-weight-bold">Welcome to <a href="#" class="text-primary font-weight-bold">Ghallant</a></h5>
+        <img src="{% static 'img\highBrickWardStretch.jpg' %}" alt="The City of Starfall, High Brick Ward with Starfall Castle in the distance." class="fit-img mb-3">
         <p class="font-weight-bold">A World where enemies lurk behind every corner and shadows hold knives around every bend.</p>
-        <p class="font-weight-bold">There have been rumors of a Cult of Dragons with fanatics that have been robbing towns, assaulting innocents and destroying the lives of the everyday man. The world is in chaos as many are dealt terrible hands by fate as the Cult of the Dragon sweeps their influence throughout. People now cower before the darkness of the Cult. Those few who stand up against it face an onslaught of creatures and plots that threaten to take the power from each and every city.</p>
-        <p class="font-weight-bold">There are verious factions who work to undermine the Cult of the Dragon. Though usually these factions do not play well with each other, they have opened working together in order to bring this Cult of organized crime down. Without much organization and leadership, the different factions have been working in many different directions and find themselves strained for resources.</p>
-        <p class="font-weight-bold">It has only been recenly, through a series of events that began in the small town of <a class="text-primary font-weight-bold" href="#">Zidurza</a> that an unlikely group of <a class="text-primary font-weight-bold" href="#">Heroes</a> have risen to meet the cult on various occasions. Now, with justice at their side, they have been chosen by Dragons to help bring about peace and balance to the world. Not many people ride dragons since the days of old. Awestruck, the people of <a class="text-primary font-weight-bold" href="#">Starfall City</a> watch this band of heroes grow in strength and influence as they venture to bringing about peace to the world.</p>
-        <p class="font-weight-bold">If they cannot bring peace, many fear that, no one could... </p>
-        <p class="font-weight-bold">What horrible machinations has the Cult of the Dragon for these blasphemers who taint dragons in their eyes?</p>
+        <p class="font-weight-bold">There have been rumors of a Cult of Dragons with fanatics that have been robbing towns, assaulting innocents and destroying the lives of the everyday man. The world is in chaos as many are dealt terrible hands by fate. People now cower before the darkness of the Cult. Those few who stand up against it face an onslaught of creatures and plots that threaten to take their lives and the lives of those they love.</p>
+        <p class="font-weight-bold">There are various factions who work to undermine the Cult of the Dragon. Though usually these factions don't play well with each other, they have started working together in order to bring this Cult of organized crime down. Without much organization and leadership, the different factions have been working in many different directions and find themselves strained for resources.</p>
+        <p class="font-weight-bold">It has only been recently, through a series of events that began in the small town of <a class="text-primary font-weight-bold" href="#">Zidurza</a> that an unlikely group of <a class="text-primary font-weight-bold" href="{% url 'heroes' %}">Heroes</a> have risen to meet the cult on various occasions. Now, with justice at their side, they have been chosen by Dragons to help bring about peace and balance to the world. No one has heard of people riding dragons since the days of old. Awestruck, the people of <a class="text-primary font-weight-bold" href="#">Starfall City</a> watch this band of heroes grow in strength and influence as they venture to bringing about peace to the world.</p>
+        <p class="font-weight-bold">If these heroes cannot bring peace, many fear that no one could... </p>
+        <p class="font-weight-bold">What horrible machinations has the Cult of the Dragon for these dragon-riders who blaspheme dragons in their eyes?</p>
         <p class="font-weight-bold">What has the Cult in store for... <span class="text-purple">THE DRAGONCHOSEN</span></p>
         <img src="{% static 'img\tiamat4.jpg' %}" alt="Tiamat, the Queen of Dragons" class="fit-img">
 
     </div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
